@@ -5,35 +5,42 @@
 <html>
 <head>
     <title>Meal</title>
+    <style>
+        .normal {color: green}
+        .exceeded {color: red}
+    </style>
 </head>
 <body>
+
+<a href="meal?action=create">Add Meal</a>
+
 <table border="1">
     <tr>
+        <th>ID</th>
         <th>DateTime</th>
         <th>Description</th>
         <th>Calories</th>
         <th>Exceed</th>
+        <th>Update</th>
+        <th>Delete</th>
     </tr>
-    <c:forEach var="meal" items="${requestScope.meal}">
-        <c:if test="${!meal.exceed}">
-            <tr>
-                <th width="150" ><font color="green"><javatime:format value="${meal.dateTime}" pattern="yyyy-mm-dd hh:mm" /></font></th>
-                <th><font color="green">${meal.description}</font></th>
-                <th><font color="green">${meal.calories}</font></th>
-                <th><font color="green">${meal.exceed}</font></th>
+    <c:forEach  items="${requestScope.meal}" var="meal">
+        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+            <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
+                <th>${meal.id}</th>
+                <th width="150" ><javatime:format value="${meal.dateTime}" pattern="yyyy-mm-dd hh:mm" /></th>
+                <th>${meal.description}</th>
+                <th>${meal.calories}</th>
+                <th>${meal.exceed}</th>
+                <th><a href="meal?action=update&id=${meal.id}">Update</a></th>
+                <th><a href="meal?action=delete&id=${meal.id}">Delete</a></th>
             </tr>
-        </c:if>
-
-        <c:if test="${meal.exceed}">
-            <tr>
-                <th><font color="red"><javatime:format value="${meal.dateTime}" pattern="yyyy-mm-dd hh:mm" /></font></th>
-                <th><font color="red">${meal.description}</font></th>
-                <th><font color="red">${meal.calories}</font></th>
-                <th><font color="red">${meal.exceed}</font></th>
-            </tr>
-        </c:if>
 
     </c:forEach>
+
 </table>
+
+
+
 </body>
 </html>
