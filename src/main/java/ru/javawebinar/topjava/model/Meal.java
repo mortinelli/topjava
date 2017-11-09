@@ -26,7 +26,7 @@ public class Meal {
         this.calories = calories;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
