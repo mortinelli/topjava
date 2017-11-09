@@ -12,24 +12,23 @@
 </head>
 <body>
 
-<jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
-<form method="POST" action="meal">
-
+<jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
+<form method="post" action="meal">
     <input type="hidden" name="id" value="${meal.id}">
-
-    DateTime : <input
-        type="datetime-local" name="datetime"
-        value="${meal.dateTime}" /> <br />
-    Description : <input
-        type="text" name="description"
-        value="${meal.description}" /> <br />
-    Calories : <input
-        type="number" name="calories"
-        value="${meal.calories}" /> <br />
-
+    <dl>
+        <dt>DateTime:</dt>
+        <dd><input type="datetime-local" value="${meal.dateTime}" name="dateTime"></dd>
+    </dl>
+    <dl>
+        <dt>Description:</dt>
+        <dd><input type="text" value="${meal.description}" size=40 name="description"></dd>
+    </dl>
+    <dl>
+        <dt>Calories:</dt>
+        <dd><input type="number" value="${meal.calories}" name="calories"></dd>
+    </dl>
     <button type="submit">Save</button>
-    <button onclick="window.history.back()">Cancel</button>
-
+    <button onclick="window.history.back()" type="button">Cancel</button>
 </form>
 </body>
 </html>
