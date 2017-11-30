@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NamedQueries({
-        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m left join FETCH m.user WHERE m.user.id =:userId ORDER BY date_time DESC "),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m  WHERE m.user.id =:userId ORDER BY date_time DESC "),
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m  WHERE m.user.id=:userId AND m.id=:id "),
-        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m left join FETCH m.user WHERE m.user.id=:userId AND m.id=:id")
+        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m   WHERE m.user.id=:userId AND m.id=:id"),
+        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id=:userId AND (m.dateTime between :startDate and :endDate) order by date_time desc ")
 })
 
 
@@ -24,10 +25,11 @@ public class Meal extends AbstractBaseEntity {
     public static final String ALL_SORTED = "Meal.getAllSorted";
     public static final String DELETE = "Meal.delete";
     public static final String GET = "Meal.get";
+    public static final String GET_BETWEEN = "Meal.getBetween";
 
 
     @Column(name = "date_time", nullable = false, unique = true)
-    @NotBlank
+    @NotNull
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
@@ -39,7 +41,7 @@ public class Meal extends AbstractBaseEntity {
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn( name="user_id")
+    @JoinColumn(name ="user_id", nullable = false)
     private User user;
 
     public Meal() {
