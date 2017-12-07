@@ -14,17 +14,13 @@
     <!-- Change DB by comment/uncomment property-placeholder -->
 
    <!-- <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/> -->
-   <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+
 
     <!--<context:component-scan base-package="ru.javawebinar.**.repository.jpa"/>-->
 
-    <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
-    <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
 
-    <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
-        <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
-        <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
-    </jdbc:initialize-database>
+
+
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
@@ -54,17 +50,18 @@
 
 <!--
     <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <buserIdn id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+    <buserIdn id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
         <constructor-arg ref="dataSource"/>
     </bean>
 -->
 
     <beans profile="hsqldb">
         <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+
 
         <!--no pooling-->
         <bean id="dataSource"
@@ -87,9 +84,19 @@
     </beans>
 
     <beans profile="jdbc">
+        <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+            <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
+            <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+        </jdbc:initialize-database>
     </beans>
+
+
     <beans profile="jpa">
+        <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
+        <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
     </beans>
+
+
     <beans profile="datajpa">
     </beans>
 </beans>
